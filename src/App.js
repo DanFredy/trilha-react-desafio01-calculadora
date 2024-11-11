@@ -1,10 +1,8 @@
-
 import Input from './components/Input';
 import Button from './components/Button';
 
 import { Container, Content, Row } from './styles';
 import { useState } from 'react';
-
 
 const App = () => {
   const [currentNumber, setCurrentNumber] = useState('0');
@@ -12,45 +10,68 @@ const App = () => {
   const [operation, setOperation] = useState('');
 
   const handleOnClear = () => {
-    setCurrentNumber('0')
-    setFirstNumber('0')
-    setOperation('')
+    setCurrentNumber('0');
+    setFirstNumber('0');
+    setOperation('');
   };
 
   const handleAddNumber = (num) => {
-    setCurrentNumber(prev => `${prev === '0' ? '' : prev}${num}`)
-  }
+    setCurrentNumber(prev => `${prev === '0' ? '' : prev}${num}`);
+  };
 
   const handleSumNumbers = () => {
-
     if(firstNumber === '0'){
-        setFirstNumber(String(currentNumber));
-        setCurrentNumber('0')
-        setOperation('+')
-    }else {
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber('0');
+      setOperation('+');
+    } else {
       const sum = Number(firstNumber) + Number(currentNumber);
-      setCurrentNumber(String(sum))
-      setOperation('')
+      setCurrentNumber(String(sum));
+      setOperation('');
     }
-
-  }
+  };
 
   const handleMinusNumbers = () => {
-
     if(firstNumber === '0'){
-        setFirstNumber(String(currentNumber));
-        setCurrentNumber('0')
-        setOperation('-')
-    }else {
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber('0');
+      setOperation('-');
+    } else {
       const sum = Number(firstNumber) - Number(currentNumber);
-      setCurrentNumber(String(sum))
-      setOperation('')
+      setCurrentNumber(String(sum));
+      setOperation('');
     }
+  };
 
-  }
+  const handleMultiplyNumbers = () => {
+    if(firstNumber === '0'){
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber('0');
+      setOperation('x');
+    } else {
+      const product = Number(firstNumber) * Number(currentNumber);
+      setCurrentNumber(String(product));
+      setOperation('');
+    }
+  };
+
+  const handleDivideNumbers = () => {
+    if(firstNumber === '0'){
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber('0');
+      setOperation('/');
+    } else {
+      if(currentNumber === '0'){
+        setCurrentNumber('Erro');
+      } else {
+        const division = Number(firstNumber) / Number(currentNumber);
+        setCurrentNumber(String(division));
+        setOperation('');
+      }
+    }
+  };
 
   const handleEquals = () => {
-
     if(firstNumber !== '0' && operation !== '' && currentNumber !== '0'){
         switch(operation){
           case '+':
@@ -59,20 +80,25 @@ const App = () => {
           case '-':
             handleMinusNumbers();
             break;
+          case 'x':
+            handleMultiplyNumbers();
+            break;
+          case '/':
+            handleDivideNumbers();
+            break;
           default: 
             break;
         }
     }
-
-  }
+  };
 
   return (
     <Container>
       <Content>
         <Input value={currentNumber}/>
         <Row>
-          <Button label="x"/>
-          <Button label="/"/>
+          <Button label="x" onClick={handleMultiplyNumbers}/>
+          <Button label="/" onClick={handleDivideNumbers}/>
           <Button label="c" onClick={handleOnClear}/>
           <Button label="."/>
         </Row>
